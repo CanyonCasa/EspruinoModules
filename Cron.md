@@ -31,25 +31,25 @@ Define jobs using the job method as
 ```javascript
   cron.job({id:'...', time:[...], cb:'...', cbThis: this, args:[...], n:#}); 
 ```
-  Where the cronjob object may contain:
-  - id: Unique reference name for job and event signal name. See Job *id* Notes.
-  - time: String or array that specifies the match time(s). See Time Notes.
-  - cb: Optional callback to call instead of 'id' event
-  - cbThis: Optional 'this' context for callback
-  - args: Optional arguments for callback    
-  - n: Optional number of times to run job; job deleted after n events
+  Where the cronjob object passed to job may contain:
+  - **id**: Unique reference name for job and event signal name. See Job *id* Notes.
+  - **time**: String or array that specifies the match time(s). See Time Notes.
+  - **cb**: Optional callback to call instead of 'id' event
+  - **cbThis**: Optional 'this' context for callback
+  - **args**: Optional arguments for callback 
+  - **n**: Optional number of times to run job; job deleted after n events
 
   Calling the job method with or without an object returns the current job list.
-  Jobs do not get processed in any particular guaranteed order.
+  Jobs triggering on the same time do not get processed in any particular guaranteed order.
 
 #### Job *id* Notes
   - Cron uses the *id* as the reference key to store the job object and
     as the event-emitter event.
   - Defining a new job with same *id* replaces an existing job with that *id*
   - Specifying only a job *id* with no time spec removes that job from list
-  - When the time spec matchs the clock time...
+  - When the time spec matches the clock time...
     - If the callback (cb) is defined it is called.
-    - Otherwise, the cron instance emits an *id* event 
+    - Otherwise, the cron instance emits an *id* event. 
   
 #### Time Notes
   - The time record specifies in order [min,hr,day,month,dayOfWk]
@@ -57,7 +57,7 @@ Define jobs using the job method as
     '5 0,12, * * 1' --> 5 min after midnight and noon Monday
   -- Alternately, the time may be specified as an array, for example,
     [5,[0,12],'*','*','1'] --> 5 min after midnight and noon Monday
-  - Time fields may be integer, string values, array of integers, or *
+  - Time array fields may be integer, string values, arrays, or *
   - Cron supports wildcard (*) and comma delimited lists, but does not
     support modulo (/), range (-), and Cron keyword shortcut syntaxes.
 
@@ -66,7 +66,7 @@ Define jobs using the job method as
 Enables or disables the Cron timer tick interval. Called with no parameter 
 it starts or restarts the timer with the default time period set when the 
 instance was defined, which defaults to 5 minutes if no given. Called with 
-an integer minutes parameter it starts or restarts the timer tick at that  
+an integer minutes parameter it starts or restarts the timer tick at that 
 interval. When called with 0 it stops the internal timer tick. When 
 started the timer delays by an offset (os) timeout to sync the tick with the 
 closest time interval. That is, a 5 minute interval for example will fire at
@@ -75,7 +75,7 @@ internal timer state, but should not be altered (i.e. treat as read-only).
 **cron.tmr** returns an object specifying dt: delta time in milliseconds,
 os: initial timeout offset, t: timeout timer handle, i: interval timer handle,
 and x: a string representing the last time match pattern. 
-#### tick()
+#### *private* tick()
 Internal callback method that tests jobs records for match to current time 
 and fires off jobs. This method is private and not exposed through the cron
 instance.
@@ -100,7 +100,7 @@ cron.job({id:"job1",time:[...]});   // redefine existing "job1"
 cron.init(0);                       // stop cron timer, can restart any time
 
 ```
-### Test Code
+### Test Code Example
 
 ```javascript
 // cron test example...
