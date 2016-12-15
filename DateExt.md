@@ -122,35 +122,35 @@ console.log(d.local().toString());
 ```
 
 #### Example output for above test script...
-
-  > Some examples of the same date...
-  > Thu Dec 15 2016 14:27:07 MST Thu Dec 15 2016 14:27:07 MST
-  > Thu Dec 15 2016 15:27:07 MDT Thu Dec 15 2016 15:27:07 MDT
-  > Thu Dec 15 2016 14:27:07 MST Thu Dec 15 2016 14:27:07 MST
-  >  { "U": false, "Y": 2016, "M": 12, "D": 15,
-  >   "W": 4, "h": 14, "i": 2, "m": 27, "s": 7,
-  >   "x": 16,
-  >   "z": "MST",
-  >   "e": 1481837227,
-  >   "T": "Thu",
-  >   "C": "Dec",
-  >   "a": "PM",
-  >   "tx": [ 2016, 11, 15, 14, 27, 7, 16 ],
-  >   "dst": 0,
-  >   "str": "Thu Dec 15 2016 14:27:07 MST"
-  >  }
-  > All format fields...
-  > Dec, 20161215, 4, Thu, 21:27:7.016 09:27:07 PM UTC = 1481837227
-  > Dec, 20161215, 4, Thu, 14:27:7.016 02:27:07 PM MST = 1481837227
-  > Four format cases...
-  > UTC date as UTC str:     21:27:07 UTC
-  > UTC date as local str:   14:27:07 MST
-  > Local date as UTC str:   21:27:07 UTC
-  > Local date as local str: 14:27:07 MST
-  > toString results...
-  > Thu Dec 15 2016 21:27:07 GMT+0000
-  > Thu Dec 15 2016 14:27:07 MST
-
+```javascript
+Some examples of the same date...
+Thu Dec 15 2016 14:27:07 MST Thu Dec 15 2016 14:27:07 MST
+Thu Dec 15 2016 15:27:07 MDT Thu Dec 15 2016 15:27:07 MDT
+Thu Dec 15 2016 14:27:07 MST Thu Dec 15 2016 14:27:07 MST
+ { "U": false, "Y": 2016, "M": 12, "D": 15,
+  "W": 4, "h": 14, "i": 2, "m": 27, "s": 7,
+  "x": 16,
+  "z": "MST",
+  "e": 1481837227,
+  "T": "Thu",
+  "C": "Dec",
+  "a": "PM",
+  "tx": [ 2016, 11, 15, 14, 27, 7, 16 ],
+  "dst": 0,
+  "str": "Thu Dec 15 2016 14:27:07 MST"
+ }
+All format fields...
+Dec, 20161215, 4, Thu, 21:27:7.016 09:27:07 PM UTC = 1481837227
+Dec, 20161215, 4, Thu, 14:27:7.016 02:27:07 PM MST = 1481837227
+Four format cases...
+UTC date as UTC str:     21:27:07 UTC
+UTC date as local str:   14:27:07 MST
+Local date as UTC str:   21:27:07 UTC
+Local date as local str: 14:27:07 MST
+toString results...
+Thu Dec 15 2016 21:27:07 GMT+0000
+Thu Dec 15 2016 14:27:07 MST
+```
 ## Reference
 
 [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date]
