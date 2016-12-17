@@ -2,7 +2,7 @@
 
 # Simple Linux-like Cron system
 
-* KEYWORDS: module, cron, cronjob, task
+* KEYWORDS: Espruino, module, cron, cronjob, task
 
 ## APPLICATION
 
@@ -15,6 +15,11 @@ Intended to be a single instance to limit resources and timer overhead.
 Multiple instances will all reference same job queue and timer, thus multiple 
 instances will see the same jobs and init calls will supercede previous calls 
 by other instances.
+
+Works with DateExt (Date Extensions) module if used to match local time values. 
+A second argument passed to the constructor, set to true, can be used to force 
+UTC if so desired when DateExt has been included. This is only necessary if 
+DateExt is included and you don't want to use local time.
 
 ## MODULE REFERENCE
 
@@ -31,16 +36,15 @@ Define jobs using the job method as
 ```javascript
   cron.job({id:'...', time:[...], cb:'...', cbThis: this, args:[...], n:#}); 
 ```
-  Where the cronjob object passed to job may contain:
+Where the cronjob object passed to job may contain:
   - **id**: Unique reference name for job and event signal name. See Job *id* Notes.
   - **time**: String or array that specifies the match time(s). See Time Notes.
   - **cb**: Optional callback to call instead of 'id' event
   - **cbThis**: Optional 'this' context for callback
   - **args**: Optional arguments for callback 
   - **n**: Optional number of times to run job; job deleted after n events
-
-  Calling the job method with or without an object returns the current job list.
-  Jobs triggering on the same time do not get processed in any particular guaranteed order.
+  
+  Calling the job method with or without an object returns the current job list. Jobs triggering on the same time do not get processed in any particular guaranteed order.
 
 #### Job *id* Notes
   - Cron uses the *id* as the reference key to store the job object and
@@ -49,7 +53,7 @@ Define jobs using the job method as
   - Specifying only a job *id* with no time spec removes that job from list
   - When the time spec matches the clock time...
     - If the callback (cb) is defined it is called.
-    - Otherwise, the cron instance emits an *id* event. 
+    - Otherwise, the cron instance emits an *id* event 
   
 #### Time Notes
   - The time record specifies in order [min,hr,day,month,dayOfWk]
@@ -57,18 +61,20 @@ Define jobs using the job method as
     '5 0,12, * * 1' --> 5 min after midnight and noon Monday
   -- Alternately, the time may be specified as an array, for example,
     [5,[0,12],'*','*','1'] --> 5 min after midnight and noon Monday
-  - Time array fields may be integer, string values, arrays, or *
+  - Time fields may be integer, string values, array of integers or strings, or *
   - Cron supports wildcard (*) and comma delimited lists, but does not
     support modulo (/), range (-), and Cron keyword shortcut syntaxes.
+  - Cron will use local time if a require('DateExt') call has been made 
+    and utc (i.e. second constructor paramter) is false.
 
 ### Other Methods
 #### init(<minutes>)
 Enables or disables the Cron timer tick interval. Called with no parameter 
 it starts or restarts the timer with the default time period set when the 
 instance was defined, which defaults to 5 minutes if no given. Called with 
-an integer minutes parameter it starts or restarts the timer tick at that 
-interval. When called with 0 it stops the internal timer tick. When 
-started the timer delays by an offset (os) timeout to sync the tick with the 
+an integer minutes parameter, it starts or restarts the timer tick at that 
+interval. When called with 0 it stops the internal timer tick. When started 
+the timer delays by an offset (os) timeout to sync the tick with the 
 closest time interval. That is, a 5 minute interval for example will fire at
 0, 5, 10, ... minutes. The variable **cron.tmr** can be used to peek at the 
 internal timer state, but should not be altered (i.e. treat as read-only). 
@@ -104,6 +110,9 @@ cron.init(0);                       // stop cron timer, can restart any time
 
 ```javascript
 // cron test example...
+
+// optional support of local time...
+require('DateExt').locale({zone:['MST','MDT'], offset:[420,360], dst:0, str:"Y-0M-0D'T'0h:0m:0s z"});
 
 var cron = require("Cron")(); // a single instance
 var d = new Date();
@@ -176,9 +185,11 @@ test:  { "dt": 60000, "os": 37897, "t": null, "i": 3, "x": "4,17,12,11,1" }
 
 ## Reference
 
-See Linux Cron and Crontab man pages for more info.
+See Linux Cron and Crontab man pages for more info. See DateExt module for 
+local time configuration.
 
 Using
 -----
 
 * APPEND_USES: Cron.js
+* APPEND_USES: DateExt.js

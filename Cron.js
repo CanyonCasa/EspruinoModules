@@ -8,7 +8,10 @@ Example...
 NOTE: Intended to be a single instance to limit resources and timer overhead. 
 Multiple instances will all reference same job queue and timer, thus multiple 
 instances will see the same jobs and init calls will supercede previous calls 
-by other instances.
+by other instances. Works with DateExt module if used to match local time 
+values. A second argument passed to the constructor, set to true, can be used 
+to force UTC if so desired. This is only necessary if DateExt is included and 
+you don't want to use local time.
 
 Jobs defined using job method as in ...
   cron.job({id:'...', time:[...], cb:'...', cbThis: this, args:[...], n:#}); 
@@ -50,12 +53,14 @@ cron.on("job1", function() {...});  // event handler, where "job1"=job id
 // intensionally treated as a module level queue and timer for all instances
 // of cron to minimize resources and timer overhead.
 var jobs = {};                                // queue for cronjobs
-var tmr = {dt:0,os:0,t:null,i:null,x:''}; // timer handles and parameters
+var tmr = {dt:0,os:0,t:null,i:null,x:''};     // timer handles and parameters
+// addition to default local date call to UTC if DateExt module not used
+if (!new Date().local) Date.prototype.local = function() { return this; };
 
 // cron update "ping function" called at "tmr.dt"...
 function tick() {
   var c = this;
-  var d = new Date();
+  var d = c.utc ? new Date() : new Date().local();
   var dt = [d.getMinutes(),d.getHours(),d.getDate(),d.getMonth(),d.getDay()];
   tmr.x = dt.toString();
   for (var id in jobs) {
@@ -114,8 +119,9 @@ function init(tp){
   };
 
 // Cron constructor, tp defaults to 5 min...  
-exports = function (tp) {
+exports = function (tp,utc) {
   var c = {
+    utc: utc ? true : false,  // force utc time if DateExt local used
     tp: tp||5,  // default tick interval
     init: init, // function to enable/disable tick
     job: job,   // function to define jobs
