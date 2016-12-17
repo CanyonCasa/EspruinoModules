@@ -61,6 +61,7 @@ The **as()** method internally generates a *representative* date object used in 
 
   - **U**:  Specifies to use UTC time, even if a local date provided. Must be first character!
   - **Y**:  FullYear
+  - **V**:  2-digit Year
   - **M**:  Month, i.e. Jan=1
   - **C**:  3-letter text for "C"alendar Month
   - **D**:  Day of the Month 
@@ -106,7 +107,7 @@ console.log(d.as().str, d.local().as().str, '\n', d.local().as(), '\n');
 // all fields
 console.log('All format fields...');
 console.log(d.local().as("UC, YMD, W, T, h:m:s.00x 0i:0m:0s a z = e").str, '\n');
-console.log(d.local().as("C, YMD, W, T, h:m:s.00x 0i:0m:0s a z = e").str, '\n');
+console.log(d.local().as("C, VMD, W, T, h:m:s.00x 0i:0m:0s a z = e").str, '\n');
 
 // 4 cases of time
 console.log('Four format cases...');
@@ -122,26 +123,27 @@ console.log(d.local().toString());
 ```
 
 #### Example output for above test script...
-```javascript
+
+```
 Some examples of the same date...
 Thu Dec 15 2016 14:27:07 MST Thu Dec 15 2016 14:27:07 MST
 Thu Dec 15 2016 15:27:07 MDT Thu Dec 15 2016 15:27:07 MDT
 Thu Dec 15 2016 14:27:07 MST Thu Dec 15 2016 14:27:07 MST
- { "U": false, "Y": 2016, "M": 12, "D": 15,
-  "W": 4, "h": 14, "i": 2, "m": 27, "s": 7,
-  "x": 16,
+ { "U": false, "Y": 2016, "V": 16, "M": 12,
+  "D": 17, "W": 6, "h": 14, "i": 2, "m": 8,
+  "s": 37, "x": 242,
   "z": "MST",
-  "e": 1481837227,
-  "T": "Thu",
+  "e": 1482008917,
+  "T": "Sat",
   "C": "Dec",
   "a": "PM",
-  "tx": [ 2016, 11, 15, 14, 27, 7, 16 ],
+  "tx": [ 2016, 11, 17, 14, 8, 37, 242 ],
   "dst": 0,
-  "str": "Thu Dec 15 2016 14:27:07 MST"
+  "str": "Sat Dec 17 2016 14:08:37 MST"
  }
 All format fields...
 Dec, 20161215, 4, Thu, 21:27:7.016 09:27:07 PM UTC = 1481837227
-Dec, 20161215, 4, Thu, 14:27:7.016 02:27:07 PM MST = 1481837227
+Dec, 161215, 4, Thu, 14:27:7.016 02:27:07 PM MST = 1481837227
 Four format cases...
 UTC date as UTC str:     21:27:07 UTC
 UTC date as local str:   14:27:07 MST
@@ -151,6 +153,7 @@ toString results...
 Thu Dec 15 2016 21:27:07 GMT+0000
 Thu Dec 15 2016 14:27:07 MST
 ```
+
 ## Reference
 
 [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date]

@@ -44,6 +44,7 @@ The representative date has the following fields; all but "tx", "dst", and
 "str" may be used in the format specification:
   U: Specifies to use UTC time, even if a local date provided. Must be first character!
   Y: FullYear
+  V: 2-digit year
   M: Month, i.e. Jan=1
   C: 3-letter text for "C"alendar Month
   D: Day of the Month 
@@ -98,6 +99,7 @@ Date.prototype.as = function(frmt) {
   var dx = {
     U: utc,
     Y: d.getFullYear(),
+    V: d.getFullYear()%100,
     M: d.getMonth()+1, 
     D: d.getDate(), 
     W: d.getDay(),
@@ -118,14 +120,14 @@ Date.prototype.as = function(frmt) {
   dx.dst=this.locale.dst;
   dx.str='';
   // format the output string...
-  var ch=''; var q=''; var z=0
+  var ch=''; var q=''; var z=0;
   for (var i in frmt) {
     ch = frmt[i];
     if (q) { if (ch!=q) {dx.str+=ch;} else {q=''}; continue; }; // quoted strings
     if (ch=='"'||ch=="'") { q=ch; continue; };                  // mark quote start
     if (ch=='0') { z++; continue; };                            // zero padding
     // (padded) format ch or non-format ch
-    dx.str += ('YMDTWChimsxaze'.indexOf(ch)!=-1) ? (z ? ('000'+dx[ch]).slice(-z-1) : dx[ch]) : ch;
+    dx.str += ('YVMDTWChimsxaze'.indexOf(ch)!=-1) ? (z ? ('000'+dx[ch]).slice(-z-1) : dx[ch]) : ch;
     z=0;
   }
   return dx;
